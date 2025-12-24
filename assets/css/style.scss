@@ -6,7 +6,6 @@ $nav-button-light-color: #e94560;
 
 // 2. Importa le tue variabili (devono esserci per il tema)
 @import "variables";
-@import "syntax";
 
 // 3. Importa il tema base (Cayman)
 @import "{{ site.theme }}";

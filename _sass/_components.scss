@@ -91,8 +91,30 @@ body.dark-theme .btn {
 img {
   max-width: 100%;
   height: auto;
-  &.img-medium { width: 80% !important; display: block; margin: 20px auto; }
-  &.img-vertical { width: 60% !important; display: block; margin: 20px auto; }
+  
+  // Bordo sottile e angoli arrotondati
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  
+  // Opzionale: una leggerissima ombra per dare profondità
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  &.img-medium { 
+    width: 80% !important; 
+    display: block; 
+    margin: 2rem auto; 
+  }
+  
+  &.img-vertical { 
+    width: 60% !important; 
+    display: block; 
+    margin: 2rem auto; 
+  }
+}
+
+body.dark-theme img {
+  border-color: rgba(255, 255, 255, 0.1); // Bordo leggermente più luminoso nel tema scuro
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); // Ombra più marcata
 }
 
 .post-content > *:last-child {

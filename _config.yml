@@ -24,4 +24,15 @@ plugins:
 
 markdown: kramdown
 kramdown:
+  input: GFM        # GitHub Flavored Markdown
   syntax_highlighter: rouge
+  auto_ids: true    # Genera automaticamente id="titolo" per gli anchor link
+  hard_wrap: false
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - README.md
+  - .sass-cache
