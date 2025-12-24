@@ -1,0 +1,24 @@
+# Generic infos
+
+title: Salvatore's Blog
+email: sal.penitente@gmail.com
+description: >- 
+  A blog made of stories about useless tinkering
+baseurl: ""
+url: "https://backsofangels.github.io"
+permalink: /:title/
+
+# Author infos
+
+author:
+  name: Salvatore Penietnte
+  github_username:  backsofangels
+
+# Theme
+theme: cayman
+
+# Plugins
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
