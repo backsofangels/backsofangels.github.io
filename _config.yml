@@ -1,6 +1,6 @@
 # Generic infos
 
-title: The Critical Git
+title: "The Critical Git"
 email: sal.penitente@gmail.com
 description: "A blog made of stories about useless tinkering and other weird stuff."
 url: "https://backsofangels.github.io"
@@ -9,7 +9,7 @@ permalink: /:title/
 # Author infos
 
 author:
-  name: Salvatore Penitente
+  name: The Critical Git
   github_username:  backsofangels
 
 # Theme
