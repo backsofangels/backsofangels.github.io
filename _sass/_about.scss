@@ -43,8 +43,9 @@
   padding: 1.5rem;
   border-radius: 8px;
   border: 1px solid var(--code-border);
-  transition: all 0.3s ease;
+  transition: none;
   height: 100%;
+  cursor: default;
 
   h4 {
     color: var(--primary-color) !important;
@@ -58,47 +59,40 @@
     line-height: 1.5;
     margin-bottom: 0;
   }
-
-  &:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary-color);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  }
 }
 
-// 3. Tabella delle conoscenze tecniche
 .knowledge-table-container {
-  margin: 3rem 0;
-  
-  h3 {
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-}
+  margin: 2rem 0;
+  overflow-x: auto; // Per evitare che rompa il layout su mobile
 
-.knowledge-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--code-bg);
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
+  .knowledge-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
 
-  th, td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
-  }
+    th {
+      text-align: left;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--border-color);
+      padding: 12px;
+    }
 
-  th {
-    background-color: var(--header-bg-start);
-    color: #ffffff;
-    font-weight: bold;
-    width: 30%;
-  }
+    td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--main-text);
+    }
 
-  tr:last-child td {
-    border-bottom: none;
+    tr:hover {
+      background-color: rgba(233, 69, 96, 0.03); // Leggero hover Crimson
+    }
+
+    strong {
+      color: var(--heading-color);
+    }
   }
 }
 

@@ -4,11 +4,32 @@ html, body {
 }
 
 body {
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   display: flex;
   flex-direction: column;
   background-color: var(--bg-color);
   color: var(--main-text);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#reading-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px; // Sottile e discreta
+  background: transparent;
+  z-index: 9999; // Deve stare sopra a tutto
+}
+
+#reading-progress-bar {
+  height: 100%;
+  background: var(--primary-color); // Il tuo Crimson
+  width: 0%; // Parte da zero
+  transition: width 0.1s ease-out;
+  box-shadow: 0 0 10px var(--primary-color); // Un leggero bagliore neon
 }
 
 h1, h2, h3, h4, h5, h6, 
@@ -22,28 +43,230 @@ a h1, a h2, a h3 {
   flex: 1 0 auto;
   background-color: var(--bg-color);
   width: 100%;
-  max-width: 64rem;
+  max-width: 50rem; // Leggermente più stretto (ottimale per la lettura: ~75-80 caratteri per riga)
   margin: 0 auto;
-  padding: 2rem;
+  padding: 3rem 2rem; // Più spazio verticale
 
   .post-content {
-    font-size: 1.1rem;
-    h2, h3 { border-bottom: 2px solid var(--border-color); padding-bottom: 5px; }
-    p { margin-bottom: 1.5rem; }
+    font-size: 1.15rem; // Leggermente più grande
+    line-height: 1.75;    // Interlinea aurea per ridurre l'affaticamento
+    color: var(--main-text);
+    -webkit-font-smoothing: antialiased;
+
+    h2, h3 { 
+      margin-top: 2.5rem;   // Più distacco dal paragrafo precedente
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+      color: var(--heading-color);
+      border-bottom: 1px solid var(--border-color); // Bordo più sottile e discreto
+      padding-bottom: 8px;
+    }
+
+    p { 
+      margin-bottom: 1.8rem; // Più spazio tra i concetti
+      text-rendering: optimizeLegibility;
+    }
+
     a {
       color: var(--primary-color);
-      text-decoration: underline;
-      &:hover { opacity: 0.8; }
+      text-decoration: none; // Rimuoviamo l'underline statica per un look più pulito
+      border-bottom: 1px dashed var(--primary-color); // Sostituita con un bordo tratteggiato elegante
+      transition: all 0.2s ease;
+      
+      &:hover { 
+        opacity: 1;
+        border-bottom-style: solid; // Diventa linea continua al passaggio del mouse
+        background-color: rgba(233, 69, 96, 0.05); // Un leggerissimo tocco di colore di fondo
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 1.5rem;
+      margin-bottom: 1.8rem; // Coerente con il margine dei paragrafi
+
+      li {
+        position: relative;
+        margin-bottom: 0.8rem;
+
+        &::before {
+          content: "•";
+          color: var(--primary-color);
+          font-weight: bold;
+          display: inline-block;
+          width: 1em;
+          margin-left: -1em;
+        }
+      }
+    }
+    
+    ol {
+      padding-left: 1.5rem;
+      margin-bottom: 1.8rem;
+      
+      li {
+        margin-bottom: 0.8rem;
+        &::marker {
+          color: var(--primary-color);
+          font-weight: bold;
+        }
+      }
+    }
+
+    blockquote {
+      margin: 2rem 0;
+      padding: 1rem 1.5rem;
+      border-left: 4px solid var(--primary-color);
+      background-color: rgba(233, 69, 96, 0.05);
+      font-style: italic;
+      color: var(--excerpt-text);
+
+      p {
+        margin-bottom: 0 !important; // Rimuove lo spazio vuoto extra
+      }
     }
   }
 }
 
 .site-footer {
-  flex-shrink: 0;
+  padding: 4rem 2rem; // Più respiro verticale
+  margin-top: 4rem;
   border-top: 1px solid var(--border-color);
-  color: var(--excerpt-text);
-  padding: 2rem;
   text-align: center;
-  width: 100%;
+  font-size: 0.9rem;
+  color: var(--excerpt-text);
   background-color: var(--bg-color);
+
+  // Un tocco decorativo: una piccola linea Crimson sopra il testo
+  &::before {
+    content: "";
+    display: block;
+    width: 30px;
+    height: 3px;
+    background: var(--primary-color);
+    margin: 0 auto 2rem auto;
+    border-radius: 2px;
+  }
+
+  a {
+    color: var(--main-text);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+
+  .site-footer-credits {
+    display: block;
+    margin-top: 1rem;
+    opacity: 0.7;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+}
+
+.footer-social-links {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+
+  a {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    color: var(--main-text); // Colore neutro di base
+    opacity: 0.6;
+    transition: all 0.3s ease;
+
+    svg {
+      fill: currentColor; // Fondamentale: fa sì che l'SVG prenda il colore del link
+      width: 100%;
+      height: 100%;
+    }
+
+    &:hover {
+      opacity: 1;
+      color: var(--primary-color); // Diventa Crimson al passaggio
+      transform: translateY(-3px); // Piccolo salto elegante
+    }
+  }
+}
+
+
+// TRANSIZIONE GLOBALE
+// Si applica a tutti gli elementi per rendere fluido il cambio tema
+*, *::before, *::after {
+  transition: background-color 0.3s ease, 
+              color 0.3s ease, 
+              border-color 0.3s ease, 
+              box-shadow 0.3s ease,
+              filter 0.3s ease;
+}
+
+.posts-list {
+  max-width: 50rem;
+  margin: 0 auto;
+
+  .post-preview {
+    margin-bottom: 4rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .post-meta {
+      display: block;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .post-title {
+      margin: 0 0 1rem 0;
+      font-size: 1.8rem;
+      line-height: 1.2;
+
+      a {
+        color: var(--heading-color);
+        text-decoration: none;
+        border: none; // Rimuoviamo il bordo tratteggiato solo dai titoli della lista
+        
+        &:hover {
+          color: var(--primary-color);
+          background: none;
+        }
+      }
+    }
+
+    .post-excerpt {
+      line-height: 1.8; // Interlinea generosa e professionale
+      color: var(--excerpt-text);
+      margin-bottom: 1.5rem;
+    }
+
+    .read-more {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary-color);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-bottom-color: var(--primary-color);
+      }
+    }
+  }
 }
