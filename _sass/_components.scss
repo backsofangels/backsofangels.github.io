@@ -1,0 +1,95 @@
+.btn {
+  // Il colore del testo ora segue il colore primario invece di essere fisso bianco
+  color: var(--primary-color) !important; 
+  border: 2px solid var(--primary-color) !important;
+  background-color: transparent;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.75rem 1.5rem;
+  display: inline-block;
+  text-decoration: none;
+
+  &:hover {
+    // Al passaggio del mouse il testo diventa bianco perché lo sfondo si colora
+    color: #ffffff !important;
+    background-color: var(--primary-color) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+    text-decoration: none;
+  }
+}
+
+// Eccezione per l'header: siccome l'header resta sempre scuro, 
+// lì i bottoni devono avere il testo bianco anche senza hover.
+.page-header .btn {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+
+  &:hover {
+    border-color: var(--primary-color) !important;
+  }
+}
+
+// Eccezione per il tema scuro: il testo bianco sta bene ovunque
+body.dark-theme .btn {
+  color: #ffffff !important;
+}
+
+.theme-switch {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  background: var(--primary-color);
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+
+  &:hover { transform: scale(1.1); }
+
+  .mode-icon {
+    width: 22px;
+    height: 22px;
+    stroke: #ffffff;
+  }
+}
+
+.post-preview {
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  .excerpt { color: var(--excerpt-text); }
+  .read-more {
+    color: var(--primary-color);
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+  }
+}
+
+.post-date {
+  display: inline-block;
+  background-color: rgba(233, 69, 96, 0.1);
+  color: var(--primary-color);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  &.img-medium { width: 80% !important; display: block; margin: 20px auto; }
+  &.img-vertical { width: 60% !important; display: block; margin: 20px auto; }
+}

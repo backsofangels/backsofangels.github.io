@@ -1,54 +1,75 @@
 ---
 layout: default
-title: About Me
+title: About Me - Salvatore Penitente
 permalink: /about/
 ---
 
-<div style="text-align: center; margin-bottom: 30px;">
-  <h1 style="margin-top: 10px;">Salvatore Penitente</h1>
-  <p><em>Software engineer, aspiring DevOps and long time (TT)RPG player</em></p>
-</div>
-
----
-
-### Who am I
-Software engineer by day, working in a bank for the mobile banking team.
-
-At night, I like to play around to bring my ideas to life, whether it is to keep my trusted RaspberryPi up and running with its containers, or to develop stuff which is mainly useless but helps me learn stuff.
-
-### What do I do
-My main activities include:
-* **Microservices Architectures:** Worked towards the migration of applications towards a new, scalable and reliable design
-* **Reliability & Observability:** "Zero downtime guy", achievement reached with solid stacks of monitoring dashboards and alerts.
-* **Backend Applications:** Passionate about understanding what's under the hood of the JVM
-* **Infrastructure as Code:** The automatization of deploy and builds keeps me going, especially with Jenkins pipelines, Docker containers or Terraform configurations
-* **Mobile Development and Design:** graduated at **Apple Developer Academy** at Naples, Italy, where I had the chance to learn and deep-dive native development with Swift, where I had the chance to focus on a food delivery platform project with a backend written completely with Vapor.
-
-### Technical Knowledge
-
-| Area | Technologies |
-| :--- | :--- |
-| **Development** | Java, Kotlin, Python, Bash, Swift, C |
-| **CI/CD** | Jenkins, Terraform |
-| **Observability** | Splunk, Dynatrace |
-| **Tools** | Git, Docker |
-| **Sistemi** | Linux, Android |
-
-### Under the hood
-Not only a techie, I've also lots of other passions!
-
-I like to play video games a lot, League of Legends has been a really bad rabbit hole for me in the past.
-Same goes for TTRPGs, I've played D&D for like 10+ years.
-Also, I like playing guitar even though I don't play as much as I used to do in the past.
-Then, I love photography and photo editing, so don't be surprised if you will see here some travel posts with pictures I've taken.
-
-Last but not least, I love bad (like *really bad*) movies.
-
-Maestro Bruno Mattei, you will be forever missed.
-
----
-
-### Contacts
-* **GitHub:** [backsofangels](https://github.com/backsofangels)
-* **LinkedIn:** [Salvatore Penitente](https://www.linkedin.com/in/salvatore-penitente-0864ab143/)
-* **Email:** [sal.penitente@gmail.com](mailto:sal.penitente@gmail.com)
+<section class="about-container">
+  <div class="about-header">
+    <h1 class="post-title-display">Salvatore Penitente</h1>
+    <p class="tagline">Software Engineer | Aspiring DevOps | TTRPG Player</p>
+  </div>
+  <div class="about-content">
+    <div class="bio-section">
+      <h3>Who am I</h3>
+      <p>
+        Software engineer by day, currently working in the banking sector for a mobile banking team. 
+        At night, I transition into a tinkerer, bringing ideas to life—from maintaining my trusted 
+        <strong>Raspberry Pi</strong> container stack to developing "useless" but educational tools 
+        that push my boundaries.
+      </p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h4>Backend & JVM</h4>
+        <p>Microservices migration, scalable design, and deep-diving into JVM internals with Java and Kotlin.</p>
+      </div>
+      <div class="skill-card">
+        <h4>DevOps & IaC</h4>
+        <p>Automation enthusiast using Jenkins, Docker, and Terraform to ensure reliable, automated deployments.</p>
+      </div>
+      <div class="skill-card">
+        <h4>Observability</h4>
+        <p>The "Zero Downtime" guy, leveraging Splunk and Dynatrace for rock-solid monitoring and alerting.</p>
+      </div>
+      <div class="skill-card">
+        <h4>Apple Academy Alumnus</h4>
+        <p>Native mobile development with Swift and backend services using Vapor, born in Naples' Developer Academy.</p>
+      </div>
+    </div>
+    <div class="knowledge-table-container">
+      <h3>Technical Knowledge</h3>
+      <table class="knowledge-table">
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th>Technologies</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Development</strong></td><td>Java, Kotlin, Python, Bash, Swift, C</td></tr>
+          <tr><td><strong>CI/CD</strong></td><td>Jenkins, Terraform</td></tr>
+          <tr><td><strong>Observability</strong></td><td>Splunk, Dynatrace</td></tr>
+          <tr><td><strong>Tools</strong></td><td>Git, Docker</td></tr>
+          <tr><td><strong>Systems</strong></td><td>Linux, Android</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bio-section extra-passions">
+      <h3>Under the hood</h3>
+      <p>
+        Beyond the terminal, I'm a veteran <strong>D&D player</strong> (10+ years), a photography enthusiast, 
+        and a guitar player. I also have a refined taste for <em>really bad movies</em>—Maestro Bruno Mattei 
+        is a personal legend.
+      </p>
+    </div>
+    <div class="contact-section">
+      <h3>Get in touch</h3>
+      <div class="contact-links">
+        <a href="https://github.com/backsofangels" class="btn">GitHub</a>
+        <a href="https://www.linkedin.com/in/salvatore-penitente-0864ab143/" class="btn">LinkedIn</a>
+        <a href="mailto:sal.penitente@gmail.com" class="btn">Email</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,20 +1,18 @@
 ---
 ---
+// 1. Settings statici per Cayman
+$section-headings-color: #1a1a2e;
+$nav-button-light-color: #e94560;
+
+// 2. Importa le tue variabili (devono esserci per il tema)
+@import "variables";
+@import "syntax";
+
+// 3. Importa il tema base (Cayman)
 @import "{{ site.theme }}";
 
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-.img-medium {
-    width: 80% !important;
-    display: block;
-    margin: 0 auto;
-}
-
-.img-vertical {
-    width: 60% !important;
-    display: block;
-    margin: 0 auto;
-}
+// 4. Importa i tuoi stili custom (DEVONO stare dopo per sovrascrivere Cayman)
+@import "layout";
+@import "header";
+@import "components";
+@import "about";

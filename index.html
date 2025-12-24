@@ -1,0 +1,21 @@
+---
+layout: default
+title: The Critical Git
+---
+
+<section class="blog-list">
+  {% for post in site.posts %}
+    <article class="post-preview">
+      <span class="post-date">
+        {{ post.date | date: "%-d %B %Y" }}
+      </span>
+      <h2 class="post-title">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </h2>
+      <div class="excerpt">
+        {{ post.excerpt | strip_html | truncatewords: 30 }}
+      </div>
+      <a href="{{ post.url | relative_url }}" class="read-more">Read Full Post →</a>
+    </article>
+  {% endfor %}
+</section>

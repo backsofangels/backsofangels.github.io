@@ -1,7 +1,6 @@
 ---
 layout: post
-post_title: "Repurposing an old tablet as ebook reader - Part 1"
-title: "Salvatore's Blog"
+title: "Repurposing an old tablet as ebook reader - Part 1"
 date: 2025-12-24
 ---
 

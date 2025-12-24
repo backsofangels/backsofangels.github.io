@@ -1,0 +1,157 @@
+// 1. Container principale
+.about-container {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 1rem 0;
+
+  .about-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .tagline {
+      color: var(--primary-color);
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// 2. Griglia delle competenze (Skills)
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.skill-card {
+  background: var(--code-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--code-border);
+  transition: all 0.3s ease;
+  height: 100%;
+
+  h4 {
+    color: var(--primary-color) !important;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// 3. Tabella delle conoscenze tecniche
+.knowledge-table-container {
+  margin: 3rem 0;
+  
+  h3 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+}
+
+.knowledge-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--code-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+
+  th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  th {
+    background-color: var(--header-bg-start);
+    color: #ffffff;
+    font-weight: bold;
+    width: 30%;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+// 4. Sezione Passioni (Extra)
+.extra-passions {
+  border-left: 4px solid var(--primary-color);
+  background: rgba(233, 69, 96, 0.03);
+  padding: 2rem;
+  margin: 3rem 0;
+  border-radius: 0 8px 8px 0;
+
+  h3 {
+    margin-top: 0;
+  }
+}
+
+// 5. Sezione Contatti
+// 5. Sezione Contatti - Ottimizzata per entrambi i temi
+.contact-section {
+  text-align: center;
+  margin: 4rem 0;
+  padding: 2.5rem;
+  
+  // Usiamo un colore di sfondo che stacchi in entrambi i temi
+  background-color: var(--code-bg);
+  
+  // Un bordo tratteggiato Crimson per attirare l'attenzione
+  border: 2px dashed var(--primary-color);
+  border-radius: 12px;
+  
+  // Aggiungiamo una leggera ombra per dare profondità nel tema chiaro
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+  h3 {
+    margin-top: 0;
+    color: var(--primary-color) !important; // Titolo sempre Crimson
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+
+    // Assicuriamoci che i bottoni siano ben visibili
+    .btn {
+      min-width: 120px;
+    }
+  }
+}
+
+// Correzione specifica per il tema chiaro per evitare l'effetto "tutto bianco"
+body.light-theme .contact-section {
+  background-color: #f9f9f9; // Un grigio leggerissimo per staccare dal fondo bianco puro
+  border-style: solid; // Bordo pieno nel tema chiaro per maggior definizione
+}

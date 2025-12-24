@@ -1,0 +1,24 @@
+// Page Header styling with Midnight Crimson gradient
+.page-header {
+  background-color: var(--header-bg-start);
+  background-image: linear-gradient(120deg, var(--header-bg-start), var(--header-bg-end));
+  padding: 3rem 2rem; 
+  border-bottom: 4px solid var(--primary-color);
+  text-align: center;
+
+  .project-name, .project-tagline {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+}
+
+// Theme Toggle icon logic
+body.light-theme {
+  #sun-icon { display: none; }
+  #moon-icon { display: block; }
+}
+
+body.dark-theme {
+  #sun-icon { display: block; }
+  #moon-icon { display: none; }
+}
