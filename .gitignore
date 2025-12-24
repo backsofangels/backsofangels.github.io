@@ -1,13 +1,9 @@
-# Cartella di output di Jekyll (dove viene generato il sito statico)
 _site/
-
-# Cartelle temporanee di Jekyll e Ruby
 .jekyll-cache/
 .jekyll-metadata
 .bundle/
 vendor/
 
-# File di sistema e log
 *.log
 .DS_Store
 Thumbs.db
