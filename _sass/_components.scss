@@ -78,6 +78,26 @@ body.dark-theme .btn {
   }
 }
 
+.post-meta-header {
+  margin-bottom: 2rem;
+
+  .post-title-display {
+    margin-bottom: 0.5rem;
+    color: var(--heading-color);
+  }
+
+  .post-subtitle-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--excerpt-text);
+    font-style: italic;
+    margin-top: 1rem;
+    padding-left: 1.2rem;
+    border-left: 3px solid var(--primary-color); // Il tuo Midnight Crimson
+    opacity: 0.9;
+  }
+}
+
 .post-date {
   display: inline-block;
   background-color: rgba(233, 69, 96, 0.1);
