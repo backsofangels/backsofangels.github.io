@@ -1,6 +1,8 @@
 ---
 layout: post
 title: "Repurposing an old tablet as ebook reader - Part 1"
+description: "First step towards turning an old Nexus 7 into a Kobo-like"
+tags: [android, build, tablet, asus, nexus, nougat, aosp, android studio, kotlin, xml]
 date: 2025-12-24
 ---
 
