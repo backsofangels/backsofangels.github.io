@@ -48,8 +48,7 @@ Maestro Bruno Mattei, you will be forever missed.
 
 ---
 
-### Contatti
-Se vuoi essere contattato, puoi inserire i tuoi link social o email:
+### Contacts
 * **GitHub:** [backsofangels](https://github.com/backsofangels)
 * **LinkedIn:** [Salvatore Penitente](https://www.linkedin.com/in/salvatore-penitente-0864ab143/)
 * **Email:** [sal.penitente@gmail.com](mailto:sal.penitente@gmail.com)
