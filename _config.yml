@@ -21,3 +21,7 @@ show_downloads: false
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+
+markdown: kramdown
+kramdown:
+  syntax_highlighter: rouge

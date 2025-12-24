@@ -1,0 +1,20 @@
+---
+---
+@import "{{ site.theme }}";
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.img-medium {
+    width: 80% !important;
+    display: block;
+    margin: 0 auto;
+}
+
+.img-vertical {
+    width: 60% !important;
+    display: block;
+    margin: 0 auto;
+}
