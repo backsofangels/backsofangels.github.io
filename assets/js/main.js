@@ -32,3 +32,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+document.getElementById('copy-link-btn').addEventListener('click', function() {
+  const url = this.getAttribute('data-url');
+  
+  navigator.clipboard.writeText(url).then(() => {
+    const tooltip = document.getElementById('copy-tooltip');
+    tooltip.classList.add('show');
+    
+    // Nascondi il tooltip dopo 2 secondi
+    setTimeout(() => {
+      tooltip.classList.remove('show');
+    }, 2000);
+  });
+});
