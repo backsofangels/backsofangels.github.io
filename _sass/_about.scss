@@ -25,6 +25,11 @@
   }
 }
 
+.text-justify {
+  text-align: justify;
+  text-justify: inter-word; // Migliora la spaziatura tra le parole
+}
+
 // 2. Griglia delle competenze (Skills)
 .skills-grid {
   display: grid;
