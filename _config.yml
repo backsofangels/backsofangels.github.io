@@ -2,20 +2,19 @@
 
 title: Salvatore's Blog
 email: sal.penitente@gmail.com
-description: >- 
-  A blog made of stories about useless tinkering
-baseurl: ""
+description: A blog made of stories about useless tinkering
 url: "https://backsofangels.github.io"
 permalink: /:title/
 
 # Author infos
 
 author:
-  name: Salvatore Penietnte
+  name: Salvatore Penitente
   github_username:  backsofangels
 
 # Theme
 theme: jekyll-theme-cayman
+show_downloads: false
 
 # Plugins
 
