@@ -1,9 +1,20 @@
 ---
 layout: post
-title: "Repurposing an old tablet as ebook reader - Part 1"
-description: "First step towards turning an old Nexus 7 into a Kobo-like"
-tags: [android, build, tablet, asus, nexus, nougat, aosp, android studio, kotlin, xml]
-date: 2025-12-24
+title: Repurposing an old tablet as ebook reader - Part 1
+description: First step towards turning an old Nexus 7 into a Kobo-like
+tags:
+    - android
+    - build
+    - tablet
+    - asus
+    - nexus
+    - nougat
+    - aosp
+    - android studio
+    - kotlin
+    - xml
+date: 2025-12-24T18:00:00.000Z
+slug: repurposing-tablet-ebook-reader-part-1
 ---
 
 Christmas holidays have begun, and having more free time means also being able to tinker more with stuff
@@ -25,6 +36,8 @@ So brain as always starts thinking a lot and then I asked myself
 Short answer is yes, long answer is *Yes, but in italic*, and I'm taking this as a chance to learn something now,
 
 So here goes the part 1 of the project, building a custom launcher to wrap an e-reader app.
+
+## The fake launcher, aka the Holding Bag
 This is by far the easiest part, that was made in Kotlin because speed is key, with the old Android views system.
 
 The view was build using a FrameLayout, since the application just needs to render another app inside, like this
