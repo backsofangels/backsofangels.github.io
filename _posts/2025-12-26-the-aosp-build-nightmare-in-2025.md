@@ -2,7 +2,7 @@
 title: The AOSP building nightmare in 2025
 description: The trial-and-error process of building the AOSP 7.1.2
 date: 2025-12-26T09:52:38.427Z
-draft: true
+excerpt: Following the part 1, the next meaningful step is to start working towards a custom AOSP build, based on Nougat 7.1.2, the latest version available for the Nexus 7 codename Tilapia.
 tags:
     - android
     - aosp
@@ -15,9 +15,9 @@ tags:
 slug: aosp-building-nightmare-2025
 ---
 
-## Preface
+## Preface, or how everything starts in a tavern...
 
-Following the part 1, the next meaningful step is to start working towards a custom AOSP build, based on Nougat 7.1.2, the latest version available for the Nexus 7 codename Tilapia.
+Following the [part 1](/repurposing-tablet-ebook-reader-part-1), the next meaningful step is to start working towards a custom AOSP build, based on Nougat 7.1.2, the latest version available for the Nexus 7 codename Tilapia.
 
 Of course, no one wants to flash a just-built ROM on the only device available, so before getting to that step it was important to test the build locally, in an emulator. The choice obviously went toward the built-in Android Studio emulator, which is more or less the standard for this kind of stuff, and to the core it's nothing but a hardened QEMU version.
 
@@ -27,15 +27,13 @@ At this point I was ready to build, clone, make, test, be happy!
 
 Let's get to how I spent two days compiling, making and cursing to QEMU for two days straight, after understanding I choose the completely wrong build target and recompiling everything for *three* times.
 
-### The build environment setup
+### The build environment setup, or the character stats rolls
 
-First of all, the foundational thing to do is to install a WSL2 ecosystem, I will never thank Microsoft enough for this little gem, saving me the hassle of dual booting to Linux. 
+First of all, the foundational thing to do is to install a WSL2 ecosystem, since for me dual boot is not an option and so is a Virtual Machine made via VirtualBox or some other tools, making WSL2 the only viable option. The main concern is the slowness of I/O between the WSL2 machine and the Windows system mount it does, but it's completely out of the game if the build happens completely in the WSL2 ecosystem and the files are just copied to Windows mount once done.
 
-The main concern is the slowness of I/O between the WSL2 machine and the Windows system mount it does, but it's completely ignorable if the build happens completely in the WSL2 ecosystem and the files are just copied to Windows mount once done.
+Keeping in consideration the quite old AOSP version, Ubuntu v20.04 seems a nice fit, with all the needed packages. There's quite some stuff to be installed to be sure everything compiles correctly, and that's only the environment preparation.
 
-Keeping in consideration the quite old AOSP version, Ubuntu v20.04 seems a nice fit, with all the needed packages
-
-{% highlight bash %}
+```bash
 sudo apt update && sudo apt upgrade -y && sudo apt install -y \
   git-core \
   gnupg \
@@ -58,59 +56,51 @@ sudo apt update && sudo apt upgrade -y && sudo apt install -y \
   unzip \
   fontconfig \
   openjdk-8-jdk
-{% endhighlight %}
-
-There's quite some stuff to be installed to be sure everything compiles correctly, and that's only the environment preparation. 
+```
 
 **Important note:** if you have multiple java installations, just choose Java 8 like this
 
-{% highlight bash %}
+```bash
 sudo update-alternatives --config java
 sudo update-alternatives --config javac
-{% endhighlight %}
+```
 
-After this, let's just *mkdir android* to create the working directory, to keep everything nice and clean. Now, it's time to install the [repo](https://gerrit.googlesource.com/git-repo) tool.
+After this, let's just `mkdir android` to create the working directory, to keep everything nice and clean, and let's go with the installation of the [repo](https://gerrit.googlesource.com/git-repo) tool.
 
-{% highlight bash %}
+```bash
 mkdir -p ~/bin
 curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
 chmod a+x ~/bin/repo
 echo 'export PATH=~/bin:$PATH' >> ~/.bashrc
 source ~/.bashrc
-{% endhighlight %}
+```
 
-At this point, proceeding with the clone of the repo is the next thing to do, but *which repo*? My first thought is to go with LineageOS but, obviously, the code isn't available anymore. But, do I really need LineageOS?
+At this point, proceeding with the clone of the repo is the next thing to do, but *which repo*? My first thought is to go with LineageOS but do I really need LineageOS?
+Of course not, considering two things:
 
-Short answer: no.
+- the tablet itself runs with LineageOS now and it's quite slow and clunky
+- the source code of LineageOS 14 isn't available anymore
 
-Long answer: *no, but in italics*.
-
-Jokes aside, the tablet itself has mounted LineageOS right now and it's quite clunky and slow. AOSP seems like a good candidate considering also the modifications I will apply in the future, so let's clone that one instead, including the kernel.
-
-{% highlight bash %}
+```bash
 cd android
 repo init --depth=1 -u https://android.googlesource.com/platform/manifest -b android-7.1.2_r36
 repo sync -c --no-tags -j8
-{% endhighlight %}
+```
 
-I'll keep the part of the vendor blobs for later, we're just building towards an emulator, so it's possible to go straight at it.
+The vendor blobs is something that can be dealt with also in the future, it's an emulator build after all.
 
-## The platform nightmare
+## The platform nightmare, or "What do I do with five 10s??"
 
-After all this stuff, it's possible to start the build. All easy, just two commands, magic happens, boom, done.
+After all this stuff, it's possible to start the build, with this two commands
 
-*Hahahahaha.*
-
-First of all, to launch the build itself this two commands are needed
-
-{% highlight bash %}
+```bash
 source build/envsetup.sh
 lunch
-{% endhighlight %}
+```
 
 At this point, lunch gives you various options, that's where I did my first mistake.
 
-{% highlight bash %}
+```bash
 user@WSL:~/android$ lunch
 
 You're building on Linux
@@ -142,31 +132,31 @@ Lunch menu... pick a combo:
     24. aosp_bullhead-userdebug
     25. hikey-userdebug
     26. aosp_shamu-userdebug
-{% endhighlight %}
+```
 
-Not having much knowledge of this, I went for the mini_emulator_x86_64-userdebug build. Now, let's say it's a bit misleading but as far as I understood, that target is more oriented towards a CI/CD testing, since it's a very very minimal Android distribution. Nevertheless, let's see what happens if you try to run this in an emulator.
+Not having much knowledge of this, I went for the `mini_emulator_x86_64-userdebug` build. Now, let's say it's a bit misleading but as far as I understood, that target is more oriented towards a CI/CD testing, since it's a very very minimal Android distribution. Nevertheless, let's see what happens if you try to run this in an emulator.
 
-{% highlight bash %}
+```bash
 source build/envsetup.sh
 lunch mini_emulator_x86-userdebug
 m -j$(nproc)
 
-...
+# ...
 
 error: ro.build.fingerprint cannot exceed 91 bytes: Android/mini_emulator_x86_64/mini-emulator-x86_64:7.1.2/N2G48H/wslus12231940:userdebug/test-keys (96)
 [ 35% 13695/38461] target C++: libLLVMCore <= external/llvm/lib/IR/Function.cpp ninja: build stopped: subcommand failed. make: *** [build/core/ninja.mk:149: ninja_wrapper] Error 1
-{% endhighlight %}
+```
 
-Okay, so seems like the generated build fingerprint is too long, exceeding the 91 bytes assigned by *five bytes*. At this point, we need to modify the *build/tools/buildinfo.sh* to cut down the string, like this
+Okay, so seems like the generated build fingerprint is too long, exceeding the 91 bytes assigned by *five bytes*. At this point, we need to modify the `build/tools/buildinfo.sh` to cut down the string, like this
 
-{% highlight bash %}
+```bash
 ro.build.fingerprint=$(echo $BUILD_FINGERPRINT | cut -c1-91)
 rm -rf out/target/product/mini-emulator-x86_64/obj/ETC/system_build_prop_intermediates
-{% endhighlight %}
+```
 
-Nevertheless, even after this modification the build kept on blocking itself, so let's just do a more deep intervention: the key point is to modify the device/generic/mini_emulator_x86_64/mini_emulator_x86_64.mk in such a way the product names and details are shorter, obtaining the following
+Nevertheless, even after this modification the build kept on blocking itself, so let's just do a more deep intervention: the key point is to modify the `device/generic/mini_emulator_x86_64/mini_emulator_x86_64.mk` in such a way the product names and details are shorter, obtaining the following
 
-{% highlight bash %}
+```bash
 $(call inherit-product, device/generic/x86_64/mini_x86_64.mk)
 
 $(call inherit-product, device/generic/mini-emulator-armv7-a-neon/mini_emulator_common.mk)
@@ -179,19 +169,18 @@ PRODUCT_MODEL := mini_x64
 LOCAL_KERNEL := prebuilts/qemu-kernel/x86_64/kernel-qemu
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
-{% endhighlight %}
+```
 
-and renaming the folder to mini_x64 for coherence. After sourcing again the build env, the same target that was before named as mini_emulator_x86_64 now appears as mini_x64. This was not enough anyway, since the issues now turned out to be a memory address issue present in WSL with the ART compiler. The fix for this is to set the flag WITH_DEXPREOPT = false in the device BoardConfig.mk file. Even after this, anyway, Jack kept crashing.
+and renaming the folder to `mini_x64` for coherence. After sourcing again the build env, the same target that was before named as `mini_emulator_x86_64` now appears as `mini_x64`. This was not enough anyway, since the issues now turned out to be a memory address issue present in WSL with the ART compiler. The fix for this is to set the flag `WITH_DEXPREOPT = false` in the device `BoardConfig.mk` file. Even after this, anyway, Jack kept crashing.
 
-{% highlight bash %}
+```bash
 Launching Jack server java -XX:MaxJavaStackTraceDepth=-1 -Djava.io.tmpdir=/tmp -Dfile.encoding=UTF-8 -XX:+TieredCompilation -cp /home/wsl/.jack-server/launcher.jar com.android.jack.launcher.ServerLauncher Jack server failed to (re)start, try 'jack-diagnose' or see Jack server log SSL error when connecting to the Jack server. Try 'jack-diagnose' SSL error when connecting to the Jack server. Try 'jack-diagnose' 
 [ 50% 13360/26200] target C++: oatdump <= art/oatdump/oatdump.cc ninja: build stopped: subcommand failed. make: *** [build/core/ninja.mk:149: ninja_wrapper] Error 1
-{% endhighlight %}
+```
 
 Searching around, seems like re-enabling older TLS versions for jack communication would do the trick, so we need to modify how the JVM security behaves, removing TLSv1 and TLSv1.1 from the disabled algorithms. At this point, just because we're at it, let's add also a line to our .bashrc to give jack some more memory
 
-{% highlight bash %}
-
+```bash
 sudo nano /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/java.security
 
 ... searching for jdk.tls.disabledAlgorithms ...
@@ -209,16 +198,15 @@ cd ~/android
 make clean
 lunch mini_x64-userdebug
 m -j$(nproc)
-
-{% endhighlight %}
+```
 
 Now, the build was successful and everything went straight to the end, after 20 minutes more or less.
 
 ## The testing phase, or the Nine Hells of Baator
 
-The *.img files are ready, kernel is there, everything seems in place, time to spin up the emulator. First thing that comes in mind is to start using the AVDs from Android Studio, so after creating a custom AVD inside the GUI named Nexus, built upon a PixelXL device, and launched in the following way
+The `*.img` files are ready, kernel is there, everything seems in place, time to spin up the emulator. First thing that comes in mind is to start using the AVDs from Android Studio, so after creating a custom AVD inside the GUI named Nexus, built upon a PixelXL device, and launched in the following way
 
-{% highlight powershell %}
+```powershell
 .\emulator.exe -avd Nexus `
     -sysdir "$env:USERPROFILE\AppData\Local\Android\Sdk\system-images\android-25\custom-x86" `
     -system "$env:USERPROFILE\AppData\Local\Android\Sdk\system-images\android-25\custom-x86\system.img" `
@@ -228,25 +216,25 @@ The *.img files are ready, kernel is there, everything seems in place, time to s
     -show-kernel `
     -no-snapshot-load `
     -verbose
-{% endhighlight %}
+```
 
 Of course the emulator didn't started at all and the logs aren't encouraging, neither they were clear.
 
 First thing to do was to understand if it was a GPU compatibility, which I tested adding the following combination of flags
 
-{% highlight powershell %}
--gpu off
+```powershell
+-gpu off #vigorous crash
 
 -gpu swiftshader_indirect -qemu -append "androidboot.gles=0 androidboot.hardware=goldfish vga=0"
-{% endhighlight %}
+```
 
-The main point was an error saying "Bad color buffer handle", which happened to be present in almost every try I did. Same went even after compiling the image for mini_emulator_x86, which I tested with raw QEMU as well, for a whole day. So, I resorted to the last thing to do: build an aosp_x86-eng.
+The main point was an error saying `Bad color buffer handle`, which happened to be present in almost every try I did. Same went even after compiling the image for `mini_emulator_x86`, which I tested with raw QEMU as well, for a whole day. So, I resorted to the last thing to do: build an `aosp_x86-eng`.
 
-# The light at the end of the tunnel
+# The light at the end of the tunnel, or "I'll just play a commoner instead"
 
 First thing is to check if the mount points for the goldfish kernel are right: usually, it's like this
 
-{% highlight bash %}
+```bash
 \# Android fstab file.
 \#<src>                                                  <mnt\_point>         <type>    <mnt\_flags and options>                              <fs\_mgr\_flags>
 
@@ -258,7 +246,7 @@ First thing is to check if the mount points for the goldfish kernel are right: u
 /dev/block/mtdblock1                                    /data               ext4      noatime,nosuid,nodev,barrier=1,nomblk\_io\_submit      wait,check
 /dev/block/mtdblock2                                    /cache              ext4      noatime,nosuid,nodev  wait,check
 /devices/platform/goldfish\_mmc.0\*                     auto                auto      defaults                                             voldmanaged=sdcard:auto,encryptable=userdata
-{% endhighlight %}
+```
 
 But QEMU seems to have some issues with mtdblocks, they need to be converted either to `/dev/block/sdX` or `/dev/block/vdX`, so the file needs to be changed like this
 
@@ -283,7 +271,7 @@ At this point, the build goes straight ahead until the end, creating all the nee
 
 Considering the two issues, there's some stuff to be done on the ramdisk, so back to WSL.
 
-{% highlight bash %}
+```bash
 mkdir -p ~/android/ramdisk_fix
 cd ~/android/ramdisk_fix
 
@@ -301,7 +289,7 @@ sed -i '/cpuset/s/^/# /' init.zygote.rc
 
 # repackage ramdisk
 find . | cpio -o -H newc | gzip > ../ramdisk_nocpu_fstab.img
-{% endhighlight %}
+```
 
 Now, the final test: running QEMU
 
@@ -327,7 +315,7 @@ and, in another terminal, adb to catch every possible error
     adb logcat *:E
 ```
 
-Obviously, adb didn't failed to deliver errors 
+Obviously, adb didn't failed to deliver errors
 
 ```log
 12-26 08:21:15.350  3508  3508 E SurfaceFlinger: hwcomposer module not found
@@ -344,7 +332,7 @@ The first startup try, made with the following command
 ./emulator -avd Pixel -writable-system -gpu host -no-snapshot-load -no-boot-anim
 ```
 
-made the emulator crash vigorously, with a really bad looking `ERROR        | bad color buffer handle` looping all over the terminal, so something in the rendering wasn't right.
+made the emulator crash vigorously, with a really bad looking `ERROR | bad color buffer handle` looping all over the terminal, so something in the rendering wasn't right.
 
 First of all, let's disable newer graphic features creating the `advancedFeatures.ini` in the avd folder
 
