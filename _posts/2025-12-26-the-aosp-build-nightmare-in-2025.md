@@ -260,11 +260,121 @@ First thing is to check if the mount points for the goldfish kernel are right: u
 /devices/platform/goldfish\_mmc.0\*                     auto                auto      defaults                                             voldmanaged=sdcard:auto,encryptable=userdata
 {% endhighlight %}
 
-But QEMU and older 
+But QEMU seems to have some issues with mtdblocks, they need to be converted either to `/dev/block/sdX` or `/dev/block/vdX`, so the file needs to be changed like this
 
-So, let's start fresh:
-- check if `device/generic/goldfish/fstab.goldfish` has 
-- `make clobber` to clean everything
+```bash
+\# <src>                   <mnt_point> <type>  <mnt_flags and options> <fs_mgr_flags>
+/dev/block/vda            /system     ext4    ro,barrier=1            wait
+/dev/block/vdb            /data       ext4    noatime,nosuid,nodev    wait,check
+/dev/block/vdc            /cache      ext4    noatime,nosuid,nodev    wait,check
+```
+
+At this point, it's possible to start fresh:
+- `make clobber` to clean **everything**
 - `source build/envsetup.sh` to pick up configuration
 - `lunch aosp_x86-eng` to populate variables
 - `m -j$(nproc)` to actually build
+
+At this point, the build goes straight ahead until the end, creating all the needed files in `~/android/out/target/product/generic_x86` minus the kernel, which in my case I had to take from the prebuilts folder `prebuilts/qemu-kernel/x86/kernel-qemu`, and then move everything onto the windows mount.
+
+**Important note:** the prebuilt QEMU kernel doesn't support sdX disks, only vdX, so there were some things to be done on the ramdisk before testing out the OS, unless you like seeing `Failed to mount an un-encrypted or wiped partition on /dev/block/vda` errors.
+
+**Important note pt.2:** the prebuilt QEMU kernel also tries to use `cpusets` which in my particular configuration didn't work, with the following errors `Couldn't write 3261 to /dev/cpuset/camera-daemon/tasks no such file or directory`.
+
+Considering the two issues, there's some stuff to be done on the ramdisk, so back to WSL.
+
+{% highlight bash %}
+mkdir -p ~/android/ramdisk_fix
+cd ~/android/ramdisk_fix
+
+# expand ramdisk
+gzip -dc ../ramdisk.img | cpio -idm
+
+# replace with sed
+sed -i 's/\/dev\/block\/vda/\/dev\/block\/sda/g' fstab.*
+sed -i 's/\/dev\/block\/vdb/\/dev\/block\/sdb/g' fstab.*
+sed -i 's/\/dev\/block\/vdc/\/dev\/block\/sdc/g' fstab.*
+
+# cpudisk edit
+sed -i '/cpuset/s/^/# /' init.rc
+sed -i '/cpuset/s/^/# /' init.zygote.rc
+
+# repackage ramdisk
+find . | cpio -o -H newc | gzip > ../ramdisk_nocpu_fstab.img
+{% endhighlight %}
+
+Now, the final test: running QEMU
+
+```powershell
+.\qemu-system-i386.exe `
+  -m 2048 `
+  -cpu Nehalem `
+  -accel whpx,kernel-irqchip=off `
+  -kernel "$env:USERPROFILE\generic_x86\kernel-qemu" `
+  -initrd "$env:USERPROFILE\generic_x86\ramdisk_nocpu_fstab.img" `
+  -drive file="$env:USERPROFILE\generic_x86\system.img",index=0,media=disk,format=raw `
+  -drive file="$env:USERPROFILE\generic_x86\userdata.img",index=1,media=disk,format=raw `
+  -net nic -net user,hostfwd=tcp::5555-:5555 `
+  -append "androidboot.hardware=goldfish androidboot.selinux=permissive console=tty0" `
+  -vga std `
+  -display sdl
+```
+
+and, in another terminal, adb to catch every possible error
+
+```powershell
+    adb connect 127.0.0.1:5555
+    adb logcat *:E
+```
+
+Obviously, adb didn't failed to deliver errors 
+
+```log
+12-26 08:21:15.350  3508  3508 E SurfaceFlinger: hwcomposer module not found
+12-26 08:21:15.350  3508  3508 E SurfaceFlinger: ERROR: failed to open framebuffer (No such file or directory), aborting
+12-26 08:21:15.350  3508  3508 F libc    : Fatal signal 6 (SIGABRT), code -6 in tid 3508 (surfaceflinger)
+12-26 08:21:15.352  3515  3515 E         : debuggerd: Unable to connect to activity manager (connect failed: No such file or directory)
+```
+
+which seems to point out to surfaceflinger not being able to start up at all. At this point, it's useless to keep on going with QEMU since at least the partitions were mounting correctly, it's time to move to AVDs. I took my previous Pixel AVD, and copied the `system.img` file in the avd folder.
+
+The first startup try, made with the following command
+
+```powershell
+./emulator -avd Pixel -writable-system -gpu host -no-snapshot-load -no-boot-anim
+```
+
+made the emulator crash vigorously, with a really bad looking `ERROR        | bad color buffer handle` looping all over the terminal, so something in the rendering wasn't right.
+
+First of all, let's disable newer graphic features creating the `advancedFeatures.ini` in the avd folder
+
+```ini
+    GLPipeChecksum = off
+    GrallocSync = off
+    GLAsyncSwap = off
+```
+
+Then, edit the `config.ini`
+
+```ini
+hw.gpu.enabled=no
+hw.gpu.mode=software
+hw.dpr=1
+```
+
+And the start the emulator with the software rendering, wiping all data because in previous tries, seems like not having this flag at least for the first startup was necessary
+
+```powershell
+./emulator -avd Pixel -writable-system -gpu swiftshader_indirect -wipe-data -selinux permissive
+```
+
+After losing almost all hopes, the OS booted and went to the home screen!
+
+![AOSP Building nightmare](/assets/images/aosp-building-nightmare-startup.png)
+
+Now the next steps are:
+- clean up android of all the un-necessary stuff like phone, contacts and so on
+- flash the custom launcher made in the part 1 to start the e-reader at boot
+- further tweaks, maybe performances?
+
+The read was quite long, and the steps were so many I may have lost a few, but I hope you all enjoyed this!
