@@ -2,8 +2,11 @@ _site/
 .jekyll-cache/
 .jekyll-metadata
 .bundle/
+.frontmatter
+.vscode
 vendor/
 
 *.log
 .DS_Store
 Thumbs.db
+frontmatter.json
